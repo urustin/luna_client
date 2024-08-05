@@ -1,0 +1,16 @@
+.tab {
+    padding: 8px 16px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    cursor: pointer;
+    color: #9ca3af;
+  }
+  
+  .active {
+    color: red;
+  }
+  
+  .indigo { background-color: #4338ca; }
+  .red { background-color: #b91c1c; }
+  .green { background-color: #15803d; }
+  .yellow { background-color: #b45309; }

@@ -1,0 +1,91 @@
+/* common/Header.module.css */
+@import '/src/global.css';
+
+.header {
+  background-color: var(--primary-color);
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header nav {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.header li {
+  margin-left: 1.5rem;
+}
+
+.header li:first-child {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+.header a {
+  color: var(--background-color);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.header a:hover {
+  color: var(--secondary-color);
+}
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.hamburger span {
+  width: 25px;
+  height: 3px;
+  background-color: var(--background-color);
+  margin-bottom: 4px;
+  transition: all 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .header {
+    position: relative;
+  }
+
+  .hamburger {
+    display: flex;
+    position: absolute;
+    top: 1rem;
+    right: 2rem;
+  }
+
+  .nav {
+    display: none;
+  }
+
+  .nav.open {
+    display: block;
+  }
+
+  .header ul {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .header li {
+    margin-left: 0;
+    margin-bottom: 0.5rem;
+  }
+
+  .header li:first-child {
+    margin-bottom: 1rem;
+  }
+}
