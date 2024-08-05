@@ -7,7 +7,7 @@ const Tab = ({ name, color, isActive, onClick }) => (
     onClick={onClick}
   >
     {name}
-  </div>
+  </div>  
 );
 
 export default Tab;
