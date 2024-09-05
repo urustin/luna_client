@@ -18,3 +18,16 @@
 .btn:hover {
     background-color: var(--secondary-color);
 }
+
+.login input{
+    display: block;
+    /* width: 30%; */
+
+    
+    padding: var(--spacing-small);
+    
+    margin: var(--spacing-small) auto;
+
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+}

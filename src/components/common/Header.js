@@ -12,7 +12,7 @@ const Header = ({ user }) => {
 
   return (
     <header className={styles.header}>
-      <div className={styles.logo}>Weekly Checker</div>
+      <div className={styles.logo}><Link to="/">Luna English</Link></div>
       <div className={styles.hamburger} onClick={toggleMenu}>
         <span></span>
         <span></span>
@@ -33,7 +33,6 @@ const Header = ({ user }) => {
               <li><Link to="/checker/past" onClick={toggleMenu}>지난 결과 보기</Link></li>
               <li><Link to="/login" onClick={toggleMenu}>로그인</Link></li>
               <li><Link to="/logout" onClick={toggleMenu}>로그아웃</Link></li>
-              <li><Link to="/" onClick={toggleMenu}>홈</Link></li>
             </>
           )}
         </ul>

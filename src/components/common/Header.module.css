@@ -6,6 +6,13 @@
   padding: 1rem 2rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+.header .logo{
+  text-align: center;
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--text-white01);
+}
+
 
 .header nav {
   max-width: 1200px;

@@ -43,7 +43,7 @@ const Signup = () => {
   };
 
   return (
-    <div className={styles.signup}>
+    <div className={styles.register}>
       <h1>회원가입</h1>
       {error && <p className={styles.error}>{error}</p>}
       <form onSubmit={handleSubmit}>
@@ -51,7 +51,7 @@ const Signup = () => {
           // type="username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-          placeholder="이메일"
+          placeholder="유저명"
           required
         />
         <input

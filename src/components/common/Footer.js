@@ -5,7 +5,7 @@ import styles from './Footer.module.css';
 const Footer = () => {
   return (
     <footer className={styles.footer}>
-      <p>&copy; 2024 블로그 앱. 모든 권리 보유.</p>
+      <p>&copy; 오류 발생시 01095145560로 문자주세요!</p>
     </footer>
   );
 };
