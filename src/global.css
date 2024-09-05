@@ -2,15 +2,18 @@
 
 :root {
     /* 색상 */
-    --primary-color: #333;
+    --primary-color: #01474a;
     --secondary-color: #555;
     --background-color: #fff;
-    --text-color: #333;
+    --black01: #333;
+    --white01: #fff;
+    --text-black01: #333;
+    --text-white01: #fff;
     --link-color: #1a73e8;
     --border-color: #ddd;
   
     /* 폰트 */
-    --font-family: Arial, sans-serif;
+    --font-family: "Pretendard Variable", Arial, sans-serif;
     --font-size-base: 16px;
     --font-size-small: 14px;
     --font-size-large: 18px;

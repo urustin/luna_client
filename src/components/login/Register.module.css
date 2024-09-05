@@ -2,24 +2,27 @@
 .register {
     max-width: 400px;
     margin: 0 auto;
+    text-align: center;
     padding: var(--spacing-large);
-  }
+}
   
-  .register form div {
-    margin-bottom: var(--spacing-medium);
-  }
-  
-  .register label {
-    display: block;
-    margin-bottom: var(--spacing-small);
-  }
-  
-  .register input {
-    width: 100%;
-    padding: var(--spacing-small);
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius);
-  }
+.register form div {
+  margin-bottom: var(--spacing-medium);
+}
+
+.register label {
+  display: block;
+  margin-bottom: var(--spacing-small);
+}
+
+.register input {
+  display: block;
+  /* width: 30%; */
+  padding: var(--spacing-small);
+  margin: var(--spacing-small) auto;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+}
   
   .btn {
     background-color: var(--primary-color);

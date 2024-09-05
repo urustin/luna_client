@@ -35,7 +35,9 @@ const Home = () => {
 
   return (
     <div className={styles.home}>
-        Home
+        <div>홈 화면입니다!
+        </div>
+        실험용 기능
         <button onClick={getCurrentId}>check user</button>
         <button onClick={upTest}>add week</button>
     </div>
