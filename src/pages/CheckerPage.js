@@ -3,11 +3,11 @@ import Header from "../components/common/Header";
 import Footer from "../components/common/Footer";
 import WeeklyChecker from "../components/WeeklyChecker/WeeklyChecker";
 
-function CheckerPage() {
+function CheckerPage(time) {
   return (
     <>
       <Header />
-      <WeeklyChecker />
+      <WeeklyChecker time={time} />
       <Footer />
     </>
   );

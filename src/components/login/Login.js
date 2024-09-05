@@ -1,37 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './Login.module.css';
+import checkAuthStatus from '../function/checkAuth';
 
 const endpoint = process.env.REACT_APP_ENDPOINT;
 
 const Login = () => {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
     
-  const checkAuthStatus = async () => {
-    try {
-      const sessionID = sessionStorage.getItem('sessionID');
-      const response = await fetch(`${endpoint}/auth/check-auth`, {
-        method: 'GET',
-        credentials: 'include', // 쿠키를 포함시키기 위해 필요합니다
-        headers: {
-          'Content-Type': 'application/json',
-          'x-session-id': sessionID,
-        },
-      });
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data);
-        // 이미 인증된 사용자라면 홈페이지로 리다이렉트
-        navigate('/');
-      }
-    } catch (error) {
-      console.error('Error checking auth status:', error);
-    }
-  };
+  
+
+  useEffect(() => {
+    checkAuthStatus();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -41,10 +26,10 @@ const Login = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, password }),
-        credentials: 'include', // 쿠키를 포함시키기 위해 필요합니다
+        body: JSON.stringify({ username, password }),
+        credentials: 'include', 
       });
-      const data = await response.headers.get('X-Session-ID');
+      const data = await response.data;
 
 
       if (response.ok) {
@@ -62,13 +47,6 @@ const Login = () => {
 
 
 
-  const googleLogin = async (e) => {
-    e.preventDefault();
-
-    window.location.href = `${endpoint}/auth/google`;
-  };
-
-
 
   
   
@@ -82,9 +60,9 @@ const Login = () => {
       <form onSubmit={handleSubmit}>
         <input
           // type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="이메일"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          placeholder="유저명"
           required
         />
         <input
@@ -96,7 +74,6 @@ const Login = () => {
         />
         <button type="submit" className={styles.btn}>로그인</button>
       </form>
-      <button onClick={googleLogin} className={styles.btn}>Google로 로그인</button>
       <p>
         계정이 없으신가요? <Link to="/register">회원가입</Link>
       </p>

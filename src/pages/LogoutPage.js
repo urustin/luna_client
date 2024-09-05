@@ -1,16 +1,16 @@
 import React from "react";
 import Header from "../components/common/Header";
 import Footer from "../components/common/Footer";
-import Home from "../components/home/Home";
+import Logout from "../components/login/Logout";
 
-function HomePage() {
+function LogoutPage() {
   return (
     <>
       <Header />
-      <Home/>
+      <Logout />
       <Footer />
     </>
   );
 }
 
-export default HomePage;
+export default LogoutPage;

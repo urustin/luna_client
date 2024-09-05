@@ -1,286 +1,172 @@
 import React, { useEffect, useState } from 'react';
 import styles from './Dashboard.module.css';
 import { mockData } from '../../data/mockData';
+import { getCurrentWeek, getCurrentMonth, getDateForDay } from '../function/getTime';
+import useData from '../../hooks/useData';
+
 
 const Dashboard = () => {
-  const [data, setData] = useState([]);
-  const [newUser, setNewUser] = useState({ name: '', color: '', task: '', goal: '', startDate:'' });
-  const [newTask, setNewTask] = useState({ userName: '', task: '', goal: '' });
-  const [hasChanges, setHasChanges] = useState(false);
-  const ep = process.env.REACT_APP_ENDPOINT;
-  const addWeek = () => {
-    const newData = data.map(user => {
-      const lastWeek = user.weeks[user.weeks.length - 1];
-      const newStartDate = new Date(lastWeek.startDate);
-      newStartDate.setDate(newStartDate.getDate() + 7);
-      
-      const newWeek = {
-        startDate: newStartDate.toISOString().split('T')[0],
-        tasks: lastWeek.tasks.map(task => ({
-          ...task,
-          days: [false, false, false, false, false, false, false]
-        }))
-      };
+  const [hasChanged, setHasChanged] = useState(false);
+  const [newTask, setNewTask] = useState({task: '', goal: '' });
 
-      return {
-        ...user,
-        weeks: [...user.weeks, newWeek]
-      };
-    });
+  const {
+    isLoading,
+    data,
+    setData,
+    downloadData,
+    uploadData
+  } = useData();
+  
 
-    setData(newData);
-  };
 
-  const addUser = () => {
-    if (newUser.name && newUser.color && newUser.task && newUser.goal) {
-      const currentDate = new Date().toISOString().split('T')[0];
-      const newUserData = {
-        name: newUser.name,
-        color: newUser.color,
-        weeks: [{
-          startDate: newUser.startDate,
-          tasks: [{
-            name: newUser.task,
-            days: [false, false, false, false, false, false, false],
-            goal: parseInt(newUser.goal)
-          }]
-        }]
-      };
-      setData([...data, newUserData]);
-      setNewUser({ name: '', color: '', task: '', goal: '', startDate: '' });
-    }
-  };
+  
 
   const addTask = () => {
-    if (newTask.userName && newTask.task && newTask.goal) {
-      const updatedData = data.map(user => {
-        if (user.name === newTask.userName) {
-          const updatedWeeks = user.weeks.map((week, index) => {
-            if (index === 0) {
-              return {
-                ...week,
-                tasks: [...week.tasks, {
-                  name: newTask.task,
-                  days: [false, false, false, false, false, false, false],
-                  goal: parseInt(newTask.goal)
-                }]
-              };
-            }
-            return week;
-          });
-          return { ...user, weeks: updatedWeeks };
+      setHasChanged(true);
+      if (newTask.task && newTask.goal) {
+        const newData = {
+          ...data,
+          weeks:
+            data.weeks.map((week,index)=>{
+              if(index===0){
+                return {
+                  ...week,
+                  tasks:[
+                    ...week.tasks,
+                    {
+                      name : newTask.task,
+                      days: [false, false, false, false, false, false, false],
+                      goal: parseInt(newTask.goal)
+                    }
+                  ]
+                };
+              }
+              return week;
+            })
         }
-        return user;
-      });
-      setData(updatedData);
-      setNewTask({ userName: '', task: '', goal: '' });
-    }
-  };
-
-  // Date function (to be removed later)
-  const formatDate = (dateString) => {
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    return new Date(dateString).toLocaleDateString(undefined, options);
-  };
-  const downloadServer = async () => {
-    try {
-        console.log(data);
-      const response = await fetch(`${ep}/weeklyChecker/download`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
+        setNewTask({ task: '', goal: '' });
+        setData(newData);
       }
+    } 
 
-      const result = await response.json();
-      setData(result);
-      console.log(result.message);
 
-    } catch (error) {
-      console.error("Error uploading data:", error);
-      alert("Failed to upload data");
-    }
-  };
+
+  
+
   useEffect(() => {
-    downloadServer();
+    downloadData();
   }, []);
-// upload server
-  const uploadToServer = async () => {
-    try {
-        console.log(data);
-      const response = await fetch(`${ep}/weeklyChecker/upload`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data)
-      });
+  
 
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-
-      const result = await response.json();
-      console.log(result.message);
-      setHasChanges(false);
-      alert("Data uploaded successfully!");
-    } catch (error) {
-      console.error("Error uploading data:", error);
-      alert("Failed to upload data");
+  useEffect(() => {
+    if(!isLoading && hasChanged){
+      uploadData();
+      setHasChanged(false);
     }
-  };
+  }, [data]);
 
-// delete user
-  const deleteUser = (userName) => {
-    if (window.confirm(`Do you want to delete ${userName}?`)) {
-      const newData = data.filter(user => user.name !== userName);
-      setData(newData);
-      setHasChanges(true);
-      alert(`${userName} has been marked for deletion. Press the Upload button to confirm changes.`);
-    }
-  };
+
+
   // delete task
   const deleteTask = (userName, taskName) => {
     if (window.confirm(`Do you want to delete ${taskName}?`)) {
-
-    const newData = data.map((user)=>{
-      if (user.name === userName) {
-        return {
-          ...user,
-          weeks: user.weeks.map(week => ({
-            ...week,
-            tasks: week.tasks.filter((task) => task.name !== taskName)
-          }))
-        };
+      setHasChanged(true);
+      const newData = ()=> {
+        if(data.username === userName){
+          return {
+            ...data,
+            weeks: data.weeks.map(week => ({
+              ...week,
+              tasks: week.tasks.filter((task) => task.name !== taskName)
+            }))
+          };
+        }
+        return data;
       }
-      return user;
-    });
-    setData(newData);
-    setHasChanges(true);
-
-    alert(`${taskName} has been marked for deletion. Press the Upload button to confirm changes.`);
+      setData(newData);
+      alert(`${taskName} 가 삭제되었습니다!.`);
     }
 
   };
 
 
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className={styles.dashboard}>
-      <h1>User Dashboard</h1>
-      <button onClick={addWeek} className={styles.addWeekButton}>+ Add Week for All Users</button>
-      <button 
-        onClick={uploadToServer} 
-        className={`${styles.uploadButton} ${hasChanges ? styles.hasChanges : ''}`}
-      >
-        Upload Data {hasChanges ? '(Changes Pending)' : ''}
-      </button>
 
-      <div className={styles.addUserForm}>
-        <input
-          type="text"
-          placeholder="User Name"
-          value={newUser.name}
-          onChange={(e) => setNewUser({...newUser, name: e.target.value})}
-        />
-        <select
-          value={newUser.color}
-          onChange={(e) => setNewUser({...newUser, color: e.target.value})}
-        >
-          <option value="">Select a color</option>
-          <option value="indigo">Indigo</option>
-          <option value="red">Red</option>
-          <option value="green">Green</option>
-          <option value="yellow">Yellow</option>
-          <option value="purple">Purple</option>
-          <option value="orange">Orange</option>
-          <option value="pink">Pink</option>
-        </select>
-        <input
-          type="text"
-          placeholder="Initial Task"
-          value={newUser.task}
-          onChange={(e) => setNewUser({...newUser, task: e.target.value})}
-        />
-        <input
-          type="number"
-          placeholder="Goal"
-          value={newUser.goal}
-          onChange={(e) => setNewUser({...newUser, goal: e.target.value})}
-        />
-        <input
-          type="date"
-          placeholder="Start Date"
-          value={newUser.startDate}
-          onChange={(e) => setNewUser({...newUser, startDate: e.target.value})}
-        />
-        <button onClick={addUser}>Add User</button>
+        {/* title */}
+        <div className={styles.titleContainer}>
+          <h2>
+            {/* time of today */}
+            {getCurrentMonth(new Date())}월 {getCurrentWeek(new Date())}째 주
+          </h2>
+          {/* <h4>{getCurrentDuration()}</h4> */}
+          <h2>
+            목표 추가하기
+          </h2>
+        </div>
+
+      <div className={styles.addTaskContainer}>
+        <div className={styles.idBox}>
+          현재 로그인된 아이디 :
+          <br/>
+          {data.username}
+        </div>
+
+        <div className={styles.addTaskForm}>
+          <input
+            type="text"
+            placeholder="공부 방법"
+            value={newTask.task}
+            onChange={(e) => setNewTask({...newTask, task: e.target.value})}
+          />
+          <input
+            type="number"
+            placeholder="목표 횟수"
+            value={newTask.goal}
+            onChange={(e) => setNewTask({...newTask, goal: e.target.value})}
+          />
+          <button onClick={addTask}>Add Task</button>
+        </div>
       </div>
 
-      <div className={styles.addTaskForm}>
-        <select
-          value={newTask.userName}
-          onChange={(e) => setNewTask({...newTask, userName: e.target.value})}
-        >
-          <option value="">Select User</option>
-          {data.map(user => (
-            <option key={user.name} value={user.name}>{user.name}</option>
-          ))}
-        </select>
-        <input
-          type="text"
-          placeholder="New Task"
-          value={newTask.task}
-          onChange={(e) => setNewTask({...newTask, task: e.target.value})}
-        />
-        <input
-          type="number"
-          placeholder="Goal"
-          value={newTask.goal}
-          onChange={(e) => setNewTask({...newTask, goal: e.target.value})}
-        />
-        <button onClick={addTask}>Add Task</button>
-      </div>
 
+
+      
       <table className={styles.dashboardTable}>
         <thead>
           <tr>
             <th>User</th>
-            <th>Joined Week</th>
+
             <th>Task</th>
             <th>Goal</th>
           </tr>
         </thead>
+
         <tbody>
-          {data.map((user) => {
-            const firstWeek = user.weeks[0];
-            return firstWeek.tasks.map((task, taskIndex) => (
-              <tr key={`${user.name}-${firstWeek.startDate}-${taskIndex}`}>
+          {
+            data.weeks[0].tasks.map((task, taskIndex) => (
+              <tr key={`${data.weeks[0].startDate}-${taskIndex}`}>
                 {
                     taskIndex === 0 ? 
                         
                         <>
-                            <td style={{ color: user.color }}
-                                onClick={()=>deleteUser(user.name)}
-                            >{user.name}</td>
-                            <td>{formatDate(firstWeek.startDate)}</td>
+                            <td>{data.username}</td>
                         </>
-                        
                         :
                         <>
-                            <td></td>
                             <td></td>
                         </>
                 }
                 
-                <td onClick={()=>{deleteTask(user.name, task.name)}}>{task.name}</td>
+                <td onClick={()=>{deleteTask(data.username, task.name)}}>{task.name}</td>
                 <td>{task.goal}</td>
               </tr>
-            ));
-          })}
+            ))
+          }
         </tbody>
       </table>
     </div>

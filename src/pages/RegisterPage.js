@@ -1,16 +1,16 @@
 import React from "react";
 import Header from "../components/common/Header";
 import Footer from "../components/common/Footer";
-import Home from "../components/home/Home";
+import Register from "../components/login/Register";
 
-function HomePage() {
+function RegisterPage() {
   return (
     <>
       <Header />
-      <Home/>
+      <Register />
       <Footer />
     </>
   );
 }
 
-export default HomePage;
+export default RegisterPage;

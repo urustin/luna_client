@@ -2,8 +2,10 @@
 
 import React, { useState, useEffect } from 'react';
 import styles from './Checkbox.module.css';
+import isUploadAllowed from '../function/allowUpload';
+import formatDateToKorean from '../function/formatDateToKorean';
 
-const Checkbox = ({ checked, onChange, username, task, date }) => {
+const Checkbox = ({ checked, onChange, username, task, date, currentUserId }) => {
   const [showUpload, setShowUpload] = useState(false);
   const [image, setImage] = useState(null);
   const [uploadedImageUrl, setUploadedImageUrl] = useState(null);
@@ -14,9 +16,13 @@ const Checkbox = ({ checked, onChange, username, task, date }) => {
   useEffect(() => {
     if (checked) {
       fetchUploadedImage();
-      console.log("console+ password="+password);
     }
   }, [checked]);
+
+
+  
+
+
 
   const fetchUploadedImage = async () => {
     try {
@@ -31,10 +37,14 @@ const Checkbox = ({ checked, onChange, username, task, date }) => {
   };
 
   const handleClick = () => {
-    if (!checked) {
-      setShowUpload(!showUpload);
+    if (isUploadAllowed(date)) {
+      if (!checked) {
+        setShowUpload(!showUpload);
+      } else {
+        setShowUpload(true);
+      }
     } else {
-      setShowUpload(true);
+      alert('업로드/수정이 불가능한 시간입니다!');
     }
   };
 
@@ -45,8 +55,10 @@ const Checkbox = ({ checked, onChange, username, task, date }) => {
     setPassword(event.target.value);
     console.log(password);
   };
-
+  // console.log(username);
+  // console.log(getCurrentId());
   const handleSubmit = async () => {
+    
     if (!image) {
       alert('Please select an image first');
       return;
@@ -59,7 +71,6 @@ const Checkbox = ({ checked, onChange, username, task, date }) => {
     formData.append('username', username);
     formData.append('task', task);
     formData.append('password', password);
-    // Format the date as YYYY-MM-DD
     const formattedDate = new Date(date).toISOString().split('T')[0];
     formData.append('date', formattedDate);
 
@@ -77,6 +88,7 @@ const Checkbox = ({ checked, onChange, username, task, date }) => {
         setShowUpload(false);
         setImage(null);
         setPassword("");
+        window.location.reload();
       } else {
         const errorData = await response.json();
         throw new Error(errorData.error || 'Failed to upload image');
@@ -103,7 +115,9 @@ const Checkbox = ({ checked, onChange, username, task, date }) => {
         setUploadedImageUrl(null);
         onChange(false); // Uncheck the checkbox
         setShowUpload(false);
+        setImage(null);
         setPassword("");
+        window.location.reload();
       } else {
         throw new Error('Failed to delete image');
       }
@@ -116,7 +130,7 @@ const Checkbox = ({ checked, onChange, username, task, date }) => {
   return (
     <div className={styles.checkboxContainer}>
       <div 
-        className={`${styles.checkbox} ${checked ? styles.checked : ''}`} 
+        className={`${styles.checkbox} ${checked ? styles.checked : ''} ${!isUploadAllowed(date) || currentUserId!==username ? styles.disabled : ""}`} 
         onClick={handleClick}
       >
         {checked && <span className={styles.checkmark}>✓</span>}
@@ -152,24 +166,25 @@ const Checkbox = ({ checked, onChange, username, task, date }) => {
           ) : (
             <>
               <div className={styles.status}>
-                Username : {username}
+                {username}
                 <br/>
-                Date : {date}
-                <br/>
-                task : {task}
+                {formatDateToKorean(date)} - {task}
               </div>
+
               <input 
+                id = "files"
                 type="file" 
                 accept="image/*" 
                 onChange={handleImageChange} 
-                className={styles.fileInput}
+                // style={{visibility:"hidden"}}
                 disabled={uploading}
               />
 
               <div>
-                <label for="pw">Password (4 characters minimum):</label>
+                {/* <label for="pw">Password (4 characters minimum):</label> */}
                 <input 
                 type="password" 
+                placeholder="비밀번호를 입력해주세요"
                 id="pw" 
                 name="password" 
                 minLength="4" 
