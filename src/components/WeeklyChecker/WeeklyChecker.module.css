@@ -2,8 +2,12 @@
     max-width: 1200px;
     margin: 0 auto;
     padding: 16px;
-  }
+}
   
+.titleContainer{
+  text-align: center;
+}
+
   .userSection {
     margin-bottom: 16px;
     border-radius: 8px;
@@ -12,7 +16,6 @@
   
   .userHeader {
     padding: 0px 16px;
-    color: white;
   }
   
   .table {
@@ -103,3 +106,32 @@
 .purpleGoal { background-color: #f3e8ff; }
 .orangeGoal { background-color: #ffedd5; }
 .pinkGoal { background-color: #fce7f3; }
+
+.successGreen {
+  color: green;
+
+}
+
+.successYellow {
+  color: #ffa500; 
+
+}
+
+.successRed {
+  color: red;
+
+}
+.weekSelect {
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.weekSelect:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+}

@@ -1,16 +1,23 @@
 .checkbox {
     width: 50%;
-    height: 24px;
+    
     border: 2px solid #ccc;
     border-radius: 4px;
     display: inline-flex;
     justify-content: center;
     align-items: center;
+    transition: opacity 0.3s ease;
 }
-
+.checkbox.disabled {
+  opacity: 0.5;
+  background-color: black;
+  cursor: not-allowed;
+  pointer-events:none;
+}
 .checked {
   background-color: #3b82f6;
   border-color: #3b82f6;
+  cursor: pointer;
 }
 
 .checkmark {
@@ -18,7 +25,9 @@
 }
 
 .checkboxContainer {
-  position: relative;
+  display: flex;
+  justify-content: center;
+  height: 24px;
 }
 
 .uploadContainer {
@@ -43,7 +52,7 @@
 
 .fileInput {
   margin-bottom: 10px;
-  position: inherit;
+  /* position: inherit; */
   top:50%;
   left:30%;
   width: 40%;
@@ -72,4 +81,8 @@
   position: fixed;
   top:15%;
   right:13%;
+}
+.status{
+  font-weight: bold;
+  font-size : 1.4rem;
 }

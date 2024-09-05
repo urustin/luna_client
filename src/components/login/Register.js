@@ -7,7 +7,7 @@ const endpoint = process.env.REACT_APP_ENDPOINT;
 
 
 const Signup = () => {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
@@ -21,13 +21,13 @@ const Signup = () => {
     }
 
     try {
-      console.log(email);
+
       const response = await fetch(`${endpoint}/auth/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ username, password }),
         credentials:"include"
       });
 
@@ -48,9 +48,9 @@ const Signup = () => {
       {error && <p className={styles.error}>{error}</p>}
       <form onSubmit={handleSubmit}>
         <input
-          // type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          // type="username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
           placeholder="이메일"
           required
         />

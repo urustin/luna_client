@@ -20,7 +20,7 @@ const Header = ({ user }) => {
       </div>
       <nav className={`${styles.nav} ${isMenuOpen ? styles.open : ''}`}>
         <ul>
-          <li><Link to="/" onClick={toggleMenu}>홈</Link></li>
+          {/* <li><Link to="/" onClick={toggleMenu}>홈</Link></li> */}
           {user ? (
             <>
               <li><Link to="/checker" onClick={toggleMenu}>새 글 작성</Link></li>
@@ -28,10 +28,12 @@ const Header = ({ user }) => {
             </>
           ) : (
             <>
-              <li><Link to="/checker" onClick={toggleMenu}>체커</Link></li>
-              <li><Link to="/dashboard" onClick={toggleMenu}>DASH</Link></li>
-              <li><Link to="/auth/google2" onClick={toggleMenu}>CHECKID</Link></li>
+              <li><Link to="/checker/current" onClick={toggleMenu}>이번 주</Link></li>
+              <li><Link to="/dashboard" onClick={toggleMenu}>목표 추가</Link></li>
+              <li><Link to="/checker/past" onClick={toggleMenu}>지난 결과 보기</Link></li>
               <li><Link to="/login" onClick={toggleMenu}>로그인</Link></li>
+              <li><Link to="/logout" onClick={toggleMenu}>로그아웃</Link></li>
+              <li><Link to="/" onClick={toggleMenu}>홈</Link></li>
             </>
           )}
         </ul>
