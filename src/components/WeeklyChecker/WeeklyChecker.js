@@ -88,9 +88,7 @@ const WeeklyChecker = (time) => {
           <h2>
             {/* time of today */}
             {getCurrentMonth(new Date())}월 {getCurrentWeek(new Date())}째 주
-          </h2>
-          {/* <h4>{getCurrentDuration()}</h4> */}
-          <h2>
+            <br></br>
             스터디 진행 상황
           </h2>
         </div>

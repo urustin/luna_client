@@ -1,5 +1,6 @@
 .checkbox {
-    width: 50%;
+    width: 15px;
+    height: 15px;
     
     border: 2px solid #ccc;
     border-radius: 4px;
@@ -9,10 +10,10 @@
     transition: opacity 0.3s ease;
 }
 .checkbox.disabled {
-  opacity: 0.5;
-  background-color: black;
+  opacity: 0.35;
+  background-color: gray;
   cursor: not-allowed;
-  pointer-events:none;
+  /* pointer-events:none; */
 }
 .checked {
   background-color: #3b82f6;
@@ -27,6 +28,7 @@
 .checkboxContainer {
   display: flex;
   justify-content: center;
+  align-items: center;
   height: 24px;
 }
 
