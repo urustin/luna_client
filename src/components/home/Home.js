@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import styles from './Home.module.css';
 import getCurrentId from '../function/getCurrentId';
+import checkAuth from '../function/checkAuth';
 const endpoint = process.env.REACT_APP_ENDPOINT;
 
 
@@ -31,7 +32,7 @@ const Home = () => {
   };
 
 
-
+  checkAuth();
 
   return (
     <div className={styles.home}>

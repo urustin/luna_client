@@ -1,7 +1,7 @@
 
 
-const getCurrentWeek = (date) => {
-
+const getCurrentWeek = (d) => {
+    const date = new Date(d);
     // 주어진 날짜의 월의 첫 날을 구합니다.
     const firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
     
@@ -24,7 +24,8 @@ const getCurrentWeek = (date) => {
 };
 
 
-const getCurrentMonth = (date) => {
+const getCurrentMonth = (d) => {
+    const date = new Date(d);
     return date.getMonth()+1;
 }
 

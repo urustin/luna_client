@@ -18,6 +18,42 @@ const Dashboard = () => {
   } = useData();
   
 
+  const NumberInput = ({ value, onChange, min, max, placeholder }) => {
+    const [inputValue, setInputValue] = useState(value);
+  
+    const handleChange = (e) => {
+      const newValue = e.target.value;
+      if (newValue === '' || (parseInt(newValue) >= min && parseInt(newValue) <= max)) {
+        setInputValue(newValue);
+        onChange(newValue);
+      }
+    };
+  
+    const handleBlur = () => {
+      if (inputValue === '') {
+        onChange('');
+      } else {
+        const numValue = parseInt(inputValue);
+        if (!isNaN(numValue) && numValue >= min && numValue <= max) {
+          onChange(numValue);
+        } else {
+          setInputValue('');
+          onChange('');
+        }
+      }
+    };
+  
+    return (
+      <input
+        type="text"
+        placeholder={placeholder}
+        value={inputValue}
+        onChange={handleChange}
+        onBlur={handleBlur}
+      />
+    );
+  };
+
 
   
 
@@ -28,7 +64,7 @@ const Dashboard = () => {
           ...data,
           weeks:
             data.weeks.map((week,index)=>{
-              if(index===0){
+              if(index===data.weeks.length-1){
                 return {
                   ...week,
                   tasks:[
@@ -101,7 +137,7 @@ const Dashboard = () => {
         <div className={styles.titleContainer}>
           <h2>
             {/* time of today */}
-            {getCurrentMonth(new Date())}월 {getCurrentWeek(new Date())}째 주
+            {getCurrentMonth(data.weeks[data.weeks.length-1].startDate)}월 {getCurrentWeek(data.weeks[data.weeks.length-1].startDate)}째 주
           </h2>
           {/* <h4>{getCurrentDuration()}</h4> */}
           <h2>
@@ -123,11 +159,12 @@ const Dashboard = () => {
             value={newTask.task}
             onChange={(e) => setNewTask({...newTask, task: e.target.value})}
           />
-          <input
-            type="number"
-            placeholder="목표 횟수"
+          <NumberInput
             value={newTask.goal}
-            onChange={(e) => setNewTask({...newTask, goal: e.target.value})}
+            onChange={(value) => setNewTask({...newTask, goal: value})}
+            min={1}
+            max={7}
+            placeholder="목표 횟수"
           />
           <button onClick={addTask}>Add Task</button>
         </div>
@@ -148,8 +185,8 @@ const Dashboard = () => {
 
         <tbody>
           {
-            data.weeks[0].tasks.map((task, taskIndex) => (
-              <tr key={`${data.weeks[0].startDate}-${taskIndex}`}>
+            data.weeks[data.weeks.length-1].tasks.map((task, taskIndex) => (
+              <tr key={`${data.weeks[data.weeks.length-1].startDate}-${taskIndex}`}>
                 {
                     taskIndex === 0 ? 
                         
@@ -162,8 +199,11 @@ const Dashboard = () => {
                         </>
                 }
                 
-                <td onClick={()=>{deleteTask(data.username, task.name)}}>{task.name}</td>
-                <td>{task.goal}</td>
+                <td>{task.name}</td>
+                <td className={styles.goalBox}>
+                  <span>{task.goal}</span>
+                  <span className={styles.deleteBtn} onClick={()=>{deleteTask(data.username, task.name)}}></span>
+                </td>
               </tr>
             ))
           }

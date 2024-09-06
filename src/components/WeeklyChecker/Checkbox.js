@@ -21,9 +21,6 @@ const Checkbox = ({ checked, onChange, username, task, date, currentUserId }) =>
 
 
   
-
-
-
   const fetchUploadedImage = async () => {
     try {
       const response = await fetch(`${ep}/weeklyChecker/get-image?username=${username}&task=${task}&date=${date}`);
@@ -37,16 +34,23 @@ const Checkbox = ({ checked, onChange, username, task, date, currentUserId }) =>
   };
 
   const handleClick = () => {
-    if (isUploadAllowed(date)) {
-      if (!checked) {
-        setShowUpload(!showUpload);
-      } else {
-        setShowUpload(true);
+    
+    if (currentUserId===username) {
+      if(isUploadAllowed(date)){
+        if (!checked) {
+          setShowUpload(!showUpload);
+        } else {
+          setShowUpload(true);
+        }
+      }else{
+        alert('업로드/수정이 불가능한 시간입니다!');
       }
+      
     } else {
-      alert('업로드/수정이 불가능한 시간입니다!');
+      alert("본인 아이디만 업로드할수 있습니다!");
     }
   };
+
 
   const handleImageChange = (event) => {
     setImage(event.target.files[0]);
@@ -60,7 +64,7 @@ const Checkbox = ({ checked, onChange, username, task, date, currentUserId }) =>
   const handleSubmit = async () => {
     
     if (!image) {
-      alert('Please select an image first');
+      alert('이미지를 선택해주세요!');
       return;
     }
 
@@ -95,7 +99,7 @@ const Checkbox = ({ checked, onChange, username, task, date, currentUserId }) =>
       }
     } catch (error) {
       console.error('Error uploading image:', error);
-      alert('Failed to upload image. Please try again.');
+      alert('업로드 실패!');
     } finally {
       setUploading(false);
     }
@@ -123,7 +127,7 @@ const Checkbox = ({ checked, onChange, username, task, date, currentUserId }) =>
       }
     } catch (error) {
       console.error('Error deleting image:', error);
-      alert('Failed to delete image. Please try again.');
+      alert('이미지 제거 실패!');
     }
   };
 

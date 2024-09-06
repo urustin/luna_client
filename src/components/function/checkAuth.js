@@ -1,4 +1,4 @@
-const checkAuthStatus = async () => {
+const checkAuth = async () => {
     
     const endpoint = process.env.REACT_APP_ENDPOINT;
     try {
@@ -9,20 +9,26 @@ const checkAuthStatus = async () => {
           'Content-Type': 'application/json',
         },
       });
-      if (response.ok) {
-        const data = await response.json();
-        
-        // 이미 인증된 사용자라면 홈페이지로 리다이렉트
-        if(window.location.href.includes("login")){
-            window.location.href = '/';
-        }else{
-            console.log(data);
+
+      // if pass
+      if(response.ok){
+        if(window.location.href.includes("login") || (window.location.pathname === "/")){
+          window.location.href = '/checker/current'
         }
-        
+        const result = await response.json();
+        return result;
+
+      // if not pass
+      }else{
+        if(!window.location.href.includes("login")){
+          window.location.href = '/login'
+        }
       }
+
     } catch (error) {
+      
       console.error('Error checking auth status:', error);
     }
 };
   
-export default checkAuthStatus;
+export default checkAuth;

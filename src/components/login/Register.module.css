@@ -9,6 +9,10 @@
 .register form div {
   margin-bottom: var(--spacing-medium);
 }
+.register form p {
+  margin-top: -10px;
+  font-size: var(--font-size-small);
+}
 
 .register label {
   display: block;
