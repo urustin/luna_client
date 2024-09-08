@@ -12,7 +12,7 @@ const checkAuth = async () => {
 
       // if pass
       if(response.ok){
-        if(window.location.href.includes("login") || (window.location.pathname === "/")){
+        if(window.location.href.includes("login") || window.location.pathname === ("/")){
           window.location.href = '/checker/current'
         }
         const result = await response.json();
@@ -20,7 +20,9 @@ const checkAuth = async () => {
 
       // if not pass
       }else{
-        if(!window.location.href.includes("login")){
+        if(window.location.href.includes("login")|| window.location.href.includes("register")){
+          
+        }else{
           window.location.href = '/login'
         }
       }
