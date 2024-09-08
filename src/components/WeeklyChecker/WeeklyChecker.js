@@ -33,7 +33,7 @@ const WeeklyChecker = (time) => {
     getUserId();
     // set activeWeek as this monday first.
     setActiveWeek({date:getCurrentMonday()});
-
+    
   },[]);
 
   useEffect(() => {
@@ -87,7 +87,7 @@ const WeeklyChecker = (time) => {
         <div className={styles.titleContainer}>
           <h2>
             {/* time of today */}
-            {getCurrentMonth(new Date())}월 {getCurrentWeek(new Date())}째 주
+            {getCurrentMonth(activeWeek.date)}월 {getCurrentWeek(activeWeek.date)}째 주
             <br></br>
             스터디 진행 상황
           </h2>
@@ -138,13 +138,13 @@ const WeeklyChecker = (time) => {
       {[...data]
         .filter(user => user.weeks.filter(week => week.startDate === activeWeek.date).length > 0)
         .sort((a, b) => {
-          console.log(currentUserId);
+          // console.log(currentUserId);
           if (a.username === currentUserId) return -1;
           if (b.username === currentUserId) return 1;
           return a.username.localeCompare(b.username);
         })
         .map((user, userIndex) => {
-          console.log(user);
+          // console.log(user);
         const userWeek = user.weeks.filter(week=>week.startDate === activeWeek.date)[0];
         // const userWeek = user.weeks.find(week => week.startDate === activeWeek.date);
 
