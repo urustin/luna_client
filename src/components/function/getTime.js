@@ -84,7 +84,7 @@ const getDateForDay = (weekStartDate, dayIndex) => {
 const getCurrentMonday = (date = new Date()) => {
   const resultDate = new Date(date);
   // console.log(resultDate.getDate());
-  resultDate.setDate(date.getDate() + ((1 + 0 - date.getDay()) % 7 || 0));
+  resultDate.setDate(date.getDate() - date.getDay() + (date.getDay() === 0 ? -6 : 1));
   return formatDate(resultDate);
 }
 

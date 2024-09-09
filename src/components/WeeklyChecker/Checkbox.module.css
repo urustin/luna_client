@@ -49,6 +49,8 @@
 .uploadContainer img{
   width: 100%;
   margin-top: 10%;
+  height: 75%;
+  object-fit: contain;
 }
 
 
@@ -76,10 +78,10 @@
   margin: 4px 2px;
   cursor: pointer;
   border-radius: 4px;
-  
 }
+
 .exitButton{
-  background-color: #3b82f6;
+  /* background-color: #3b82f6; */
   position: fixed;
   top:15%;
   right:13%;
