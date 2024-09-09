@@ -34,20 +34,24 @@ const Checkbox = ({ checked, onChange, username, task, date, currentUserId }) =>
   };
 
   const handleClick = () => {
+    if(!checked){
+
     
-    if (currentUserId===username) {
-      if(isUploadAllowed(date)){
-        if (!checked) {
-          setShowUpload(!showUpload);
-        } else {
-          setShowUpload(true);
+      if (currentUserId===username) {
+        if(isUploadAllowed(date)){
+          if (!checked) {
+            setShowUpload(!showUpload);
+          } else {
+            setShowUpload(true);
+          }
+        }else{
+          alert('업로드/수정이 불가능한 시간입니다!');
         }
-      }else{
-        alert('업로드/수정이 불가능한 시간입니다!');
+      } else {
+        alert("본인 아이디만 업로드할수 있습니다!");
       }
-      
-    } else {
-      alert("본인 아이디만 업로드할수 있습니다!");
+    }else{
+      setShowUpload(true);
     }
   };
 
