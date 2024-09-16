@@ -171,9 +171,10 @@ const WeeklyChecker = (time) => {
                     userWeek.tasks.map((task, taskIndex) => {
                     
                     const completedDays = task.days.filter(day => day).length;
-                    const successRate = Math.round((completedDays / task.goal) * 100);
+                    let successRate = Math.round((completedDays / task.goal) * 100);
                     let successColor = '';
                     if (successRate >= 100) {
+                      successRate = 100; 
                       successColor = styles.successGreen;
                     } else if (successRate >= 70) {
                       successColor = styles.successYellow;
