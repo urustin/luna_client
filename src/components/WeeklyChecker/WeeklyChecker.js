@@ -8,7 +8,7 @@ import useData from '../../hooks/useData';
 import getCurrentId from '../function/getCurrentId';
 
 const WeeklyChecker = (time) => {
-  const [activeWeek, setActiveWeek] = useState({date:new Date()});
+  const [activeWeek, setActiveWeek] = useState({date:null});
   const [weekArray, setWeekArray] = useState([]);
 
   const days = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
@@ -32,19 +32,35 @@ const WeeklyChecker = (time) => {
     downloadDataAll();
     getUserId();
     // set activeWeek as this monday first.
-    setActiveWeek({date:getCurrentMonday()});
+    // setActiveWeek({date:getCurrentMonday()})
+    
+    console.log(activeWeek);
     
   },[]);
 
+  
+
   useEffect(() => {
     if (!isLoading&&data) {
-      const allWeeks = data.flatMap(user => user.weeks.map(week => week.startDate));
-      const uniqueWeeks = Array.from(new Set(allWeeks)).map(startDate => ({date: startDate}));
-      uniqueWeeks.sort((a, b) => new Date(b.date) - new Date(a.date)); // 날짜 내림차순 정렬
-      setWeekArray(uniqueWeeks);
-    }
-  }, [data]);
 
+      const allWeeks = data.flatMap(user => user.weeks.map(week => week.startDate)); // get all week
+      const uniqueWeeks = Array.from(new Set(allWeeks)).map(startDate => ({date: startDate})); // if there's same date week, remove
+      if(time.time.time==="current"){
+        uniqueWeeks.sort((a, b) => new Date(b.date) - new Date(a.date)); // sort + pop first element
+        setWeekArray(uniqueWeeks);
+      }else{
+        uniqueWeeks.sort((a, b) => new Date(b.date) - new Date(a.date)).shift(); // sort + pop first element
+        setWeekArray(uniqueWeeks);
+      }
+    }
+  }, [data, time]);
+
+  useEffect(()=>{
+    if (!isLoading&&data) {
+      setActiveWeek({date:weekArray[0].date});
+    }
+    
+  },[weekArray])
 
   const handleCheckboxToggle = (userIndex, taskIndex, dayIndex, newValue) => {
 
