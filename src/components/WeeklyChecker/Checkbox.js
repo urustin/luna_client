@@ -86,6 +86,7 @@ const Checkbox = ({ checked, onChange, username, task, date, currentUserId }) =>
       const response = await fetch(`${ep}/weeklyChecker/upload-image`, {
         method: 'POST',
         body: formData,
+        credentials:'include'
       });
 
       if (response.ok) {
