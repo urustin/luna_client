@@ -54,6 +54,15 @@ const Dashboard = () => {
     );
   };
 
+  const checkDate = () => {
+    // if(new Date().getDate)
+    const date = new Date();
+    const isClosed = date.getDay()>2 || date.getDay() === 0;
+    if(isClosed){
+      alert("현재 등록할 수 없습니다!");
+      window.location.href = '/checker/current';
+    }
+  }
 
   
 
@@ -91,6 +100,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     downloadData();
+    checkDate();
   }, []);
   
 
