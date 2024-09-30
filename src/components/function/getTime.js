@@ -1,28 +1,32 @@
 
 
 const getCurrentWeek = (d) => {
-    const date = new Date(d);
-    // 주어진 날짜의 월의 첫 날을 구합니다.
-    const firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
-    
-    // 이번 달의 첫 번째 월요일을 찾습니다.
-    const firstMonday = new Date(firstDayOfMonth);
-    while (firstMonday.getDay() !== 1) {
-      firstMonday.setDate(firstMonday.getDate() + 1);
-    }
+  const date = new Date(d);
+  const year = date.getFullYear();
+  const month = date.getMonth();
   
-    // 주어진 날짜가 첫 번째 월요일보다 앞서면 0주차로 간주합니다.
-    if (date < firstMonday) {
-      return 0;
-    }
+  // 주어진 월의 첫 번째 날을 구합니다.
+  const firstDayOfMonth = new Date(year, month, 1);
   
-    // 첫 번째 월요일부터 주어진 날짜까지의 일수를 계산합니다.
-    const days = Math.floor((date - firstMonday) / (24 * 60 * 60 * 1000));
-
-    // 주 수를 계산하고 1을 더합니다 (첫 주는 1주차로 계산).
-    return Math.floor(days / 7) + 1;
+  // 첫 번째 날의 요일을 구합니다 (0: 일요일, 1: 월요일, ..., 6: 토요일)
+  const firstDayOfWeek = firstDayOfMonth.getDay();
+  
+  // 첫 번째 목요일의 날짜를 구합니다.
+  const firstThursday = new Date(year, month, 1 + ((4 - firstDayOfWeek + 7) % 7));
+  
+  // 주어진 날짜가 속한 주의 목요일을 구합니다.
+  const thisThursday = new Date(year, month, date.getDate() + ((4 - date.getDay() + 7) % 7));
+  
+  // 첫 번째 목요일과 이 주의 목요일 사이의 주 수를 계산합니다.
+  const weekNumber = Math.floor((thisThursday - firstThursday) / (7 * 24 * 60 * 60 * 1000)) + 1;
+  
+  // 이 주의 목요일이 다음 달에 속하는지 확인합니다.
+  if (thisThursday.getMonth() !== month) {
+      return { month: month + 2, week: 1 }; // 다음 달의 1주차
+  }
+  
+  return { month: month + 1, week: weekNumber };
 };
-
 
 const getCurrentMonth = (d) => {
     const date = new Date(d);

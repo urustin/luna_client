@@ -103,7 +103,7 @@ const WeeklyChecker = (time) => {
         <div className={styles.titleContainer}>
           <h2>
             {/* time of today */}
-            {getCurrentMonth(activeWeek.date)}월 {getCurrentWeek(activeWeek.date)}째 주
+            {getCurrentWeek(activeWeek.date).month}월 {getCurrentWeek(activeWeek.date).week}째 주
             <br></br>
             스터디 진행 상황
           </h2>
@@ -132,7 +132,7 @@ const WeeklyChecker = (time) => {
                     value= {week.date}
                     >
                     {/* {week.date} */}
-                    {getCurrentMonth(new Date(week.date))}월 {getCurrentWeek(new Date(week.date))}째 주
+                    {getCurrentWeek(new Date(week.date)).month}월 {getCurrentWeek(new Date(week.date)).week}째 주
                   </option>
                 );
               })
