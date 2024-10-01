@@ -147,7 +147,7 @@ const Dashboard = () => {
         <div className={styles.titleContainer}>
           <h2>
             {/* time of today */}
-            {getCurrentMonth(data.weeks[data.weeks.length-1].startDate)}월 {getCurrentWeek(data.weeks[data.weeks.length-1].startDate)}째 주
+            {getCurrentWeek(data.weeks[data.weeks.length-1].startDate).month}월 {getCurrentWeek(data.weeks[data.weeks.length-1].startDate).week}째 주
           </h2>
           {/* <h4>{getCurrentDuration()}</h4> */}
           <h2>
