@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react';
 import styles from './Checkbox.module.css';
 import isUploadAllowed from '../function/allowUpload';
 import formatDateToKorean from '../function/formatDateToKorean';
+import compressImage from '../function/imageCompress';
+
 
 const Checkbox = ({ checked, onChange, username, task, date, currentUserId }) => {
   const [showUpload, setShowUpload] = useState(false);
@@ -56,8 +58,11 @@ const Checkbox = ({ checked, onChange, username, task, date, currentUserId }) =>
   };
 
 
-  const handleImageChange = (event) => {
-    setImage(event.target.files[0]);
+  const handleImageChange = async (event) => {
+    const compressedBlob = await compressImage(event.target.files[0], 0.3);
+    // const url = URL.createObjectURL(compressedBlob);
+    // window.open(url);
+    setImage(compressedBlob);
   };
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
