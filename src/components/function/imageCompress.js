@@ -13,8 +13,8 @@ function compressImage(file, quality) {
           const ctx = canvas.getContext('2d');
           
             // 1/3
-            canvas.width = img.width / 2;
-            canvas.height = img.height / 2;
+            canvas.width = img.width / 3;
+            canvas.height = img.height / 3;
           
           ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
           
