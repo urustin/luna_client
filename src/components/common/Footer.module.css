@@ -5,7 +5,7 @@
     text-align: center;
     margin-top: 40px;
     padding: var(--spacing-small) 0;
-    /* position: fixed; */
+    position: fixed;
     bottom: 0;
     width: 100%;
     /* display: none; */
